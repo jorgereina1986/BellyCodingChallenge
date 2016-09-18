@@ -39,13 +39,8 @@ public class YelpAdapter extends RecyclerView.Adapter<YelpAdapter.MyViewHolder> 
         holder.businessName.setText(business.name());
         holder.businessDistance.setText(business.distance()+"");
         holder.businessType.setText(business.categories().get(0).name());
-        if (business.isClosed()){
-            holder.businessStatus.setText("CLOSED");
-        }
-        else{
-            holder.businessStatus.setText("OPEN");
-        }
-        Picasso.with(context).load(business.imageUrl()).into(holder.businessIv);
+        holder.businessStatus.setText(isClosed(business));
+        Picasso.with(context).load(pictureAvailable(business)).into(holder.businessIv);
     }
 
     @Override
@@ -68,5 +63,19 @@ public class YelpAdapter extends RecyclerView.Adapter<YelpAdapter.MyViewHolder> 
             businessStatus = (TextView) itemView.findViewById(R.id.business_status);
             businessIv = (ImageView) itemView.findViewById(R.id.business_iv);
         }
+    }
+
+    private String isClosed(Business business){
+        if (business.isClosed()){
+            return "CLOSED";
+        }
+        else return "OPEN";
+    }
+
+    private String pictureAvailable(Business business){
+        if (business.imageUrl()!=null){
+            return business.imageUrl();
+        }
+        else return "R.mipmap.ic_launcher";
     }
 }

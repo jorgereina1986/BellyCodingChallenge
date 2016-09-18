@@ -8,12 +8,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="0">
 
         <ImageView
             android:id="@+id/business_iv"
             android:layout_width="70dp"
-            android:layout_height="70dp" />
+            android:layout_height="70dp"
+            android:gravity="center_vertical"/>
 
     </LinearLayout>
 
@@ -46,9 +48,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -57,6 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="STATUS"
-            android:textColor="#12d42f" />
+            android:textColor="#12d42f"/>
     </LinearLayout>
 </LinearLayout>

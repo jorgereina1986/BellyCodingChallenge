@@ -11,11 +11,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.jorgereina.bellycodingchallenge.BuildConfig;
 import com.jorgereina.bellycodingchallenge.R;
 import com.jorgereina.bellycodingchallenge.adapter.YelpAdapter;
+import com.jorgereina.bellycodingchallenge.ui.DividerItemDecorator;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.Business;
@@ -45,17 +47,15 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private YelpAdapter adapter;
+    private DividerItemDecorator dividerItemDecorator;
+    private RecyclerView.ItemDecoration itemDecoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        locationTv = (TextView) findViewById(R.id.location);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-//        initializeViews()
+        initializeViews();
 
         coordinates();
         yelpConnection();
@@ -64,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void yelpConnection() {
 
-
         Map<String, String> params = new HashMap<>();
         params.put("term", "");
+        params.put("sort", "1");
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
         YelpAPI yelpAPI = apiFactory.createAPI();
@@ -81,14 +81,12 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-//                Log.d(TAG, "response: " + response.body()+"");
+                Log.d(TAG, "response: " + response.body()+"");
 
                 SearchResponse searchResponse = response.body();
                 ArrayList<Business> businesses = searchResponse.businesses();
 
                 recyclerView.setAdapter(new YelpAdapter(getApplicationContext(), businesses));
-//                locationTv.setText(searchResponse+"");
-
 
             }
 
@@ -148,11 +146,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        locationTv = (TextView) findViewById(R.id.location);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
+        dividerItemDecorator = new DividerItemDecorator();
     }
 
 }
