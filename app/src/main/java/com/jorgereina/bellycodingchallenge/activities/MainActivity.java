@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private YelpAdapter adapter;
-    private DividerItemDecorator dividerItemDecorator;
-    private RecyclerView.ItemDecoration itemDecoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        dividerItemDecorator = new DividerItemDecorator();
+        recyclerView.addItemDecoration(new DividerItemDecorator());
+
     }
 
 }

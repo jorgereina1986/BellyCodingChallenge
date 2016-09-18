@@ -1,46 +1,57 @@
 package com.jorgereina.bellycodingchallenge.ui;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 public class DividerItemDecorator extends RecyclerView.ItemDecoration {
 
-    private Drawable divider;
+    private Paint paintBlue, paintRed;
+    private int offset;
 
-    public DividerItemDecorator(Drawable divider){
-        this.divider = divider;
+    public DividerItemDecorator(){
+        offset = 10;
+        paintBlue = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintBlue.setColor(Color.BLUE);
+        paintBlue.setStyle(Paint.Style.STROKE);
+        paintBlue.setStrokeWidth(3);
+
+        paintRed = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintRed.setColor(Color.BLUE);
+        paintRed.setStyle(Paint.Style.STROKE);
+        paintRed.setStrokeWidth(1);
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-
-        if (parent.getChildAdapterPosition(view) == 0) {
-            return;
-        }
-
-        outRect.top = divider.getIntrinsicHeight();
+        outRect.set(offset, offset, offset, offset);
     }
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        int dividerLeft = parent.getPaddingLeft();
-        int dividerRight = parent.getWidth() - parent.getPaddingRight();
+        super.onDraw(c, parent, state);
 
-        int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount - 1; i++) {
-            View child = parent.getChildAt(i);
+        final RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
 
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+        for(int i=0; i<parent.getChildCount(); i++){
+            final View child = parent.getChildAt(i);
+            c.drawRect(
+                    layoutManager.getDecoratedLeft(child),
+                    layoutManager.getDecoratedTop(child),
+                    layoutManager.getDecoratedRight(child),
+                    layoutManager.getDecoratedBottom(child),
+                    paintBlue);
+            c.drawRect(
+                    layoutManager.getDecoratedLeft(child) + offset,
+                    layoutManager.getDecoratedTop(child) + offset,
+                    layoutManager.getDecoratedRight(child) - offset,
+                    layoutManager.getDecoratedBottom(child) - offset,
+                    paintRed);
 
-            int dividerTop = child.getBottom() + params.bottomMargin;
-            int dividerBottom = dividerTop + divider.getIntrinsicHeight();
-
-            divider.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
-            divider.draw(c);
         }
     }
 }
