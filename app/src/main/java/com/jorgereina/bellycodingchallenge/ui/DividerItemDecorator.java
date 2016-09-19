@@ -15,14 +15,8 @@ public class DividerItemDecorator extends RecyclerView.ItemDecoration {
     public DividerItemDecorator(){
         offset = 10;
         paintBlue = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintBlue.setColor(Color.BLUE);
+        paintBlue.setColor(Color.LTGRAY);
         paintBlue.setStyle(Paint.Style.STROKE);
-        paintBlue.setStrokeWidth(3);
-
-        paintRed = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintRed.setColor(Color.BLUE);
-        paintRed.setStyle(Paint.Style.STROKE);
-        paintRed.setStrokeWidth(1);
     }
 
     @Override
@@ -45,13 +39,6 @@ public class DividerItemDecorator extends RecyclerView.ItemDecoration {
                     layoutManager.getDecoratedRight(child),
                     layoutManager.getDecoratedBottom(child),
                     paintBlue);
-            c.drawRect(
-                    layoutManager.getDecoratedLeft(child) + offset,
-                    layoutManager.getDecoratedTop(child) + offset,
-                    layoutManager.getDecoratedRight(child) - offset,
-                    layoutManager.getDecoratedBottom(child) - offset,
-                    paintRed);
-
         }
     }
 }

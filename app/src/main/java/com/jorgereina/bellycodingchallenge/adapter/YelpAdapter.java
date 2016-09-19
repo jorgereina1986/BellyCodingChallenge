@@ -12,6 +12,7 @@ import com.jorgereina.bellycodingchallenge.R;
 import com.squareup.picasso.Picasso;
 import com.yelp.clientlib.entities.Business;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class YelpAdapter extends RecyclerView.Adapter<YelpAdapter.MyViewHolder> {
@@ -37,7 +38,7 @@ public class YelpAdapter extends RecyclerView.Adapter<YelpAdapter.MyViewHolder> 
 
         Business business = businessList.get(position);
         holder.businessName.setText(business.name());
-        holder.businessDistance.setText(business.distance()+"");
+        holder.businessDistance.setText(convertedDistance(business));
         holder.businessType.setText(business.categories().get(0).name());
         holder.businessStatus.setText(isClosed(business));
         Picasso.with(context).load(pictureAvailable(business)).into(holder.businessIv);
@@ -77,5 +78,12 @@ public class YelpAdapter extends RecyclerView.Adapter<YelpAdapter.MyViewHolder> 
             return business.imageUrl();
         }
         else return "R.mipmap.ic_launcher";
+    }
+
+    private String convertedDistance(Business business){
+
+        double result = business.distance()/100;
+        DecimalFormat decimalFormat = new DecimalFormat(".##");
+        return decimalFormat.format(result)+" mi";
     }
 }

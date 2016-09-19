@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.jorgereina.bellycodingchallenge.BuildConfig;
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                Log.d(TAG, "response: " + response.body()+"");
+//                Log.d(TAG, "response: " + response.body()+"");
 
                 SearchResponse searchResponse = response.body();
                 ArrayList<Business> businesses = searchResponse.businesses();
